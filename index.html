@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>YADO OSAKA — 大阪の貸切民泊</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+SC:wght@400;700&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg:      #e4edf3;
@@ -26,13 +25,13 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);}
+body{font-family:'Noto Sans JP','Noto Sans SC','Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);}
 
 /* HEADER */
 header{
   background:var(--bg2);
   border-bottom:1px solid var(--border);
-  padding:3rem 2rem 2.2rem;
+  padding:2.5rem 2rem 2rem;
   text-align:center;
   position:relative;overflow:hidden;
 }
@@ -48,28 +47,33 @@ header::before{
   color:var(--accent3);position:relative;line-height:1;
 }
 .logo-sub{font-size:.75rem;letter-spacing:.35em;color:var(--muted);margin-top:8px;font-weight:500;position:relative;}
-.header-desc{margin-top:14px;font-size:.82rem;color:var(--text2);line-height:1.8;position:relative;}
+.header-desc{margin-top:14px;font-size:.85rem;color:var(--text2);line-height:1.9;position:relative;}
 
-/* TABS */
-.tabs{
-  display:flex;gap:6px;padding:1.2rem 1.5rem 0;
-  border-bottom:1px solid var(--border);background:var(--bg2);
-  overflow-x:auto;
+/* LANG SWITCHER */
+.lang-bar{
+  display:flex;justify-content:center;gap:6px;
+  padding:10px;
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  position:relative;
 }
-.tab{
-  padding:8px 18px 10px;font-size:.8rem;font-weight:500;
-  color:var(--text2);cursor:pointer;
-  border-radius:var(--rs) var(--rs) 0 0;
-  border:1px solid transparent;border-bottom:none;
-  background:transparent;transition:all .18s;white-space:nowrap;
+.lang-btn{
+  padding:5px 14px;
+  font-size:.78rem;font-weight:700;
+  border:1px solid var(--border);
+  border-radius:20px;
+  background:transparent;
+  color:var(--text2);
+  cursor:pointer;
+  transition:all .16s;
+  font-family:inherit;
 }
-.tab:hover{background:rgba(106,151,180,.12);color:var(--accent3);}
-.tab.active{background:var(--card);color:var(--accent3);border-color:var(--border);font-weight:700;}
+.lang-btn:hover{background:rgba(106,151,180,.15);color:var(--accent3);}
+.lang-btn.active{background:var(--accent2);color:#fff;border-color:var(--accent2);}
 
 main{max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem;}
-.view{display:block;}
 
-/* ── MAP VIEW ── */
+/* MAP LAYOUT */
 .map-layout{
   display:grid;grid-template-columns:300px 1fr;
   gap:1.5rem;align-items:start;
@@ -104,22 +108,17 @@ main{max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem;}
 .tag{font-size:.7rem;padding:2px 9px;border-radius:20px;background:var(--bg2);color:var(--text2);border:1px solid var(--border);}
 .tag.hi{background:#d6e8f3;color:var(--accent3);border-color:#b0cfe0;}
 
-/* MAP PANEL */
 .map-panel{position:sticky;top:1rem;}
 .map-frame-wrap{
   border-radius:var(--r);overflow:hidden;
-  border:1px solid var(--border);
-  background:var(--bg2);
+  border:1px solid var(--border);background:var(--bg2);
 }
-.map-frame-wrap iframe{
-  width:100%;height:380px;border:none;display:block;
-}
+.map-frame-wrap iframe{width:100%;height:380px;border:none;display:block;}
 .map-placeholder{
   width:100%;height:380px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:10px;color:var(--text3);font-size:.82rem;
 }
-.map-placeholder svg{opacity:.35;}
 
 .detail-box{
   margin-top:1rem;background:var(--card);
@@ -131,93 +130,10 @@ main{max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem;}
   display:flex;align-items:center;justify-content:center;gap:7px;
   width:100%;padding:10px;background:#FF5A5F;color:#fff;
   border:none;border-radius:var(--rs);font-size:.82rem;font-weight:700;
-  cursor:pointer;text-decoration:none;font-family:'Noto Sans JP',sans-serif;
+  cursor:pointer;text-decoration:none;font-family:inherit;
   transition:background .15s;
 }
 .airbnb-btn:hover{background:#e04f54;}
-
-/* ── CARDS VIEW ── */
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.4rem;}
-.prop-card{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:var(--r);overflow:hidden;
-  transition:transform .18s,box-shadow .18s;position:relative;
-}
-.prop-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(30,51,66,.12);}
-.card-map-thumb{
-  width:100%;height:180px;border:none;display:block;
-  background:var(--bg2);pointer-events:none;
-}
-.card-img-placeholder{
-  width:100%;height:180px;background:var(--bg2);
-  display:flex;align-items:center;justify-content:center;
-  position:relative;
-}
-.card-num-big{
-  font-family:'Cormorant Garamond',serif;font-size:5rem;font-weight:600;
-  color:rgba(106,151,180,.25);letter-spacing:.05em;user-select:none;
-}
-.card-img-label{
-  position:absolute;bottom:10px;left:12px;
-  font-size:.68rem;font-weight:700;letter-spacing:.15em;color:var(--accent3);
-  background:rgba(237,243,247,.9);padding:3px 10px;border-radius:20px;border:1px solid var(--border);
-}
-.coming-overlay{
-  position:absolute;inset:0;background:rgba(228,237,243,.6);
-  display:flex;align-items:center;justify-content:center;
-  font-size:.78rem;font-weight:700;color:var(--accent2);letter-spacing:.15em;
-}
-.card-body{padding:16px 18px 18px;}
-.card-title{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:4px;}
-.card-sub{font-size:.72rem;color:var(--text3);margin-bottom:10px;}
-.card-desc{font-size:.76rem;color:var(--text2);line-height:1.75;margin-bottom:12px;}
-.card-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px;}
-.card-btn{
-  display:flex;align-items:center;justify-content:center;
-  width:100%;padding:9px;background:#FF5A5F;color:#fff;
-  border:none;border-radius:var(--rs);font-size:.78rem;font-weight:700;
-  text-decoration:none;font-family:'Noto Sans JP',sans-serif;transition:background .15s;
-}
-.card-btn:hover{background:#e04f54;}
-
-/* ── QR VIEW ── */
-.qr-section{max-width:520px;margin:0 auto;text-align:center;}
-.qr-intro{font-size:.85rem;color:var(--text2);line-height:1.8;margin-bottom:1.5rem;}
-.qr-row{display:flex;gap:8px;margin-bottom:1.5rem;}
-.qr-row input{
-  flex:1;padding:10px 14px;border:1px solid var(--border);
-  border-radius:var(--rs);font-size:.82rem;font-family:'Noto Sans JP',sans-serif;
-  background:var(--card2);color:var(--text);outline:none;
-}
-.qr-row input:focus{border-color:var(--accent);}
-.qr-gen-btn{
-  padding:10px 20px;background:var(--accent2);color:#fff;
-  border:none;border-radius:var(--rs);font-size:.82rem;font-weight:700;
-  cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:background .15s;white-space:nowrap;
-}
-.qr-gen-btn:hover{background:var(--accent3);}
-.qr-box{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:var(--r);padding:2rem;display:inline-block;
-}
-#qr-render{display:flex;justify-content:center;margin-bottom:1rem;min-height:60px;}
-.qr-url-txt{font-size:.75rem;color:var(--text3);word-break:break-all;font-family:monospace;}
-.qr-dl{
-  margin-top:14px;padding:8px 22px;background:transparent;color:var(--accent2);
-  border:1px solid var(--accent);border-radius:var(--rs);font-size:.78rem;font-weight:700;
-  cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:all .15s;
-}
-.qr-dl:hover{background:var(--accent2);color:#fff;}
-.qr-ph{color:var(--text3);font-size:.82rem;padding:2rem 0;}
-.steps{
-  margin-top:2rem;background:var(--card);border:1px solid var(--border);
-  border-radius:var(--r);padding:18px 20px;text-align:left;
-}
-.steps h4{font-size:.82rem;font-weight:700;color:var(--accent3);margin-bottom:10px;}
-.steps ol{font-size:.78rem;color:var(--text2);line-height:2.1;padding-left:1.2em;}
-.steps code{background:var(--bg2);padding:1px 6px;border-radius:4px;font-size:.75rem;}
-
-.sec-sub{font-size:.78rem;color:var(--text3);margin-bottom:1.5rem;letter-spacing:.05em;}
 
 footer{
   text-align:center;padding:2rem 1rem;font-size:.72rem;
@@ -229,33 +145,36 @@ footer{
 
 <header>
   <div class="logo">YADO OSAKA</div>
-  <div class="logo-sub">大阪の貸切民泊 — 5つのお宿</div>
-  <p class="header-desc">大阪に来たときの"もうひとつの我が家"として使ってね😊<br>私の宿を、家族・親戚・友人限定でご案内します🏠✨<br>快適に過ごせるよう、心を込めてお迎えします。<br>予約方法や日程の相談もお気軽に♪</p>
+  <div class="logo-sub" id="h-sub">大阪の貸切民泊 — 5つのお宿</div>
+  <p class="header-desc" id="h-desc">
+    大阪に来たときの"もうひとつの我が家"として使ってね😊<br>
+    私の宿を、家族・親戚・友人限定でご案内します🏠✨<br>
+    快適に過ごせるよう、心を込めてお迎えします。<br>
+    予約方法や日程の相談もお気軽に♪
+  </p>
 </header>
 
-
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang('ja')">🇯🇵 日本語</button>
+  <button class="lang-btn" onclick="setLang('en')">🇺🇸 English</button>
+  <button class="lang-btn" onclick="setLang('zh')">🇨🇳 中文</button>
+  <button class="lang-btn" onclick="setLang('ko')">🇰🇷 한국어</button>
+</div>
 
 <main>
-
-<!-- ══ MAP VIEW ══ -->
-<div id="view-map">
   <div class="map-layout">
 
-    <div class="pin-list">
+    <div class="pin-list" id="pin-list">
+
       <div class="pin-card active" onclick="selectPin(0)">
         <div class="pin-head">
           <div class="pin-num">1</div>
           <div>
             <div class="pin-name">YADO TANIMACHI</div>
-            <div class="pin-area">谷町六丁目・中央区</div>
+            <div class="pin-area" id="area-0"></div>
           </div>
         </div>
-        <div class="pin-tags">
-          <span class="tag hi">最上階10F</span>
-          <span class="tag">2LDK・最大10名</span>
-          <span class="tag">駅徒歩3分</span>
-          <span class="tag">72㎡</span>
-        </div>
+        <div class="pin-tags" id="tags-0"></div>
       </div>
 
       <div class="pin-card" onclick="selectPin(1)">
@@ -263,15 +182,10 @@ footer{
           <div class="pin-num">2</div>
           <div>
             <div class="pin-name">YADO MINAMIHORIE</div>
-            <div class="pin-area">南堀江・西区</div>
+            <div class="pin-area" id="area-1"></div>
           </div>
         </div>
-        <div class="pin-tags">
-          <span class="tag hi">古民家3階建</span>
-          <span class="tag">2LDK・最大7名</span>
-          <span class="tag">1棟貸切</span>
-          <span class="tag">67㎡</span>
-        </div>
+        <div class="pin-tags" id="tags-1"></div>
       </div>
 
       <div class="pin-card" onclick="selectPin(2)">
@@ -279,174 +193,198 @@ footer{
           <div class="pin-num">3</div>
           <div>
             <div class="pin-name">YADO TSURUHASHI</div>
-            <div class="pin-area">鶴橋・生野区</div>
+            <div class="pin-area" id="area-2"></div>
           </div>
         </div>
-        <div class="pin-tags">
-          <span class="tag hi">コリアンタウン直結</span>
-          <span class="tag">3LDK・最大10名</span>
-          <span class="tag">古民家1棟貸切</span>
-          <span class="tag">70㎡</span>
-        </div>
+        <div class="pin-tags" id="tags-2"></div>
       </div>
 
       <div class="pin-card" onclick="selectPin(3)">
-        <span class="badge-coming">準備中</span>
+        <span class="badge-coming" id="coming-badge"></span>
         <div class="pin-head">
           <div class="pin-num">4</div>
           <div>
             <div class="pin-name">YADO HAGINOCHAYA 2F</div>
-            <div class="pin-area">萩之茶屋・西成区</div>
+            <div class="pin-area" id="area-3"></div>
           </div>
         </div>
-        <div class="pin-tags">
-          <span class="tag hi">新世界・通天閣すぐ</span>
-          <span class="tag">3LDK・最大9名</span>
-          <span class="tag">ナチュラルテイスト</span>
-        </div>
+        <div class="pin-tags" id="tags-3"></div>
       </div>
 
       <div class="pin-card" onclick="selectPin(4)">
-        <span class="badge-coming">準備中</span>
+        <span class="badge-coming" id="coming-badge2"></span>
         <div class="pin-head">
           <div class="pin-num">5</div>
           <div>
             <div class="pin-name">YADO HAGINOCHAYA 3F</div>
-            <div class="pin-area">萩之茶屋・西成区</div>
+            <div class="pin-area" id="area-4"></div>
           </div>
         </div>
-        <div class="pin-tags">
-          <span class="tag hi">大人可愛いインテリア</span>
-          <span class="tag">3LDK・最大9名</span>
-          <span class="tag">女子旅・グループ向け</span>
-        </div>
+        <div class="pin-tags" id="tags-4"></div>
       </div>
+
     </div>
 
-    <!-- MAP + DETAIL -->
     <div class="map-panel">
-      <div class="map-frame-wrap" id="map-frame-wrap">
-        <!-- iframeがここに動的に挿入されます -->
-      </div>
+      <div class="map-frame-wrap" id="map-frame-wrap"></div>
       <div class="detail-box">
-        <h3 id="d-name">YADO TANIMACHI</h3>
-        <p id="d-desc">メトロ谷六駅徒歩3分。最上階10Fワンフロア2LDK（72㎡）丸ごと貸切。最大10名。難波15分・梅田20分とアクセス抜群。</p>
-        <a class="airbnb-btn" id="d-link" href="https://airbnb.jp/h/yado-tanimachi" target="_blank">
-          Airbnbで予約する →
-        </a>
+        <h3 id="d-name"></h3>
+        <p id="d-desc"></p>
+        <a class="airbnb-btn" id="d-link" href="#" target="_blank"></a>
       </div>
     </div>
 
   </div>
-</div>
-
-
-
 </main>
 
-<footer>
-  © YADO OSAKA — 大阪の貸切民泊 5選 ／ ご予約はAirbnbよりお願いします
-</footer>
+<footer id="footer"></footer>
 
 <script>
-/* =====================================================
-   ★ ここにiframe埋め込みURLを貼り付けてください ★
-   Google マップ →「共有」→「地図を埋め込む」→ src="..." の中身
-   ===================================================== */
 const EMBED = {
   tanimachi:   'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3281.147056943614!2d135.51713!3d34.6762378!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6000e777de5b8e0f%3A0x68cd0afcf9745bdc!2zWUFETyBUQU5JTUFDSEnvvIjlrr8t6LC355S677yJ!5e0!3m2!1sja!2sjp!4v1778683927650!5m2!1sja!2sjp',
   minamihorie: 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3281.3719261875945!2d135.481256!3d34.6705615!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6000e7215802a899%3A0xe59aebc24f50659c!2zWUFETyBNSU5BTUlIT1JJRe-8iOWuvy3ljZfloIDmsZ_vvIk!5e0!3m2!1sja!2sjp!4v1778683940592!5m2!1sja!2sjp',
   tsuruhashi:  'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d820.4208819433176!2d135.5331168!3d34.6626945!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6000df5c7a0d9725%3A0x2d8bb91aae90c376!2zWUFETyBUU1VSVUhBU0hJ77yI5a6_Lem2tOapi--8iQ!5e0!3m2!1sja!2sjp!4v1778683912334!5m2!1sja!2sjp',
-  hagi2f:      '',
-  hagi3f:      ''
+  hagi: ''
 };
 
-const PROPS = [
-  {
-    name: 'YADO TANIMACHI', area: '谷町六丁目・中央区',
-    desc: 'メトロ谷六駅徒歩3分。最上階10Fワンフロア2LDK（72㎡）丸ごと貸切。最大10名。難波15分・梅田20分とアクセス抜群。',
-    url: 'https://airbnb.jp/h/yado-tanimachi',
-    embed: () => EMBED.tanimachi, coming: false
+const LANGS = {
+  ja: {
+    sub: '大阪の貸切民泊 — 5つのお宿',
+    desc: '大阪に来たときの"もうひとつの我が家"として使ってね😊<br>私の宿を、家族・親戚・友人限定でご案内します🏠✨<br>快適に過ごせるよう、心を込めてお迎えします。<br>予約方法や日程の相談もお気軽に♪',
+    coming: '準備中',
+    book: 'Airbnbで予約する →',
+    detail: 'Airbnbで詳細を見る →',
+    footer: '© YADO OSAKA — 大阪の貸切民泊 5選 ／ ご予約はAirbnbよりお願いします',
+    props: [
+      { area: '谷町六丁目・中央区', tags: ['最上階10F','2LDK・最大10名','駅徒歩3分','72㎡'], desc: 'メトロ谷六駅徒歩3分。最上階10Fワンフロア2LDK（72㎡）丸ごと貸切。最大10名。難波15分・梅田20分とアクセス抜群。' },
+      { area: '南堀江・西区', tags: ['古民家3階建','2LDK・最大7名','1棟貸切','67㎡'], desc: '古民家3階建て長屋1棟貸切。2LDK・67㎡・最大7名。心斎橋4分・京セラドーム徒歩圏。アメリカ村・堀江も歩いてすぐ。' },
+      { area: '鶴橋・生野区', tags: ['コリアンタウン直結','3LDK・最大10名','古民家1棟貸切','70㎡'], desc: 'コリアンタウン直結。古民家2階建て長屋1棟貸切。3LDK・70㎡・最大10名。本場の韓国料理が徒歩圏内で楽しめる。' },
+      { area: '萩之茶屋・西成区', tags: ['新世界・通天閣すぐ','3LDK・最大9名','ナチュラルテイスト'], desc: '新世界・通天閣すぐ。萩ノ茶屋駅徒歩2分。3LDK・最大9名。ナチュラルテイスト。現在設営中。' },
+      { area: '萩之茶屋・西成区', tags: ['大人可愛いインテリア','3LDK・最大9名','女子旅・グループ向け'], desc: '新世界・通天閣すぐ。萩ノ茶屋駅徒歩2分。3LDK・最大9名。大人可愛いインテリア。現在設営中。' }
+    ]
   },
-  {
-    name: 'YADO MINAMIHORIE', area: '南堀江・西区',
-    desc: '古民家3階建て長屋1棟貸切。2LDK・67㎡・最大7名。心斎橋4分・京セラドーム徒歩圏。アメリカ村・堀江も歩いてすぐ。',
-    url: 'https://airbnb.jp/h/yado-minamihorie',
-    embed: () => EMBED.minamihorie, coming: false
+  en: {
+    sub: 'Private Rental Stays in Osaka — 5 Properties',
+    desc: 'Feel at home in Osaka 😊<br>Our properties are exclusively for family, relatives & friends 🏠✨<br>We welcome you with heartfelt hospitality.<br>Feel free to ask about reservations or dates ♪',
+    coming: 'Coming Soon',
+    book: 'Book on Airbnb →',
+    detail: 'View on Airbnb →',
+    footer: '© YADO OSAKA — 5 Private Stays in Osaka / Book via Airbnb',
+    props: [
+      { area: 'Tanimachi 6-chome, Chuo-ku', tags: ['Top Floor 10F','2LDK・Up to 10 guests','3 min walk','72㎡'], desc: '3-min walk from Tanimachi 6-chome Station. Entire top-floor apartment (2LDK, 72㎡) for up to 10 guests. 15 min to Namba, 20 min to Umeda.' },
+      { area: 'Minami-Horie, Nishi-ku', tags: ['Machiya Townhouse','2LDK・Up to 7 guests','Entire building','67㎡'], desc: 'Entire 3-story machiya townhouse for up to 7 guests (2LDK, 67㎡). 4 min to Shinsaibashi, walking distance to America-mura & Kyocera Dome.' },
+      { area: 'Tsuruhashi, Ikuno-ku', tags: ['Next to Koreatown','3LDK・Up to 10 guests','Entire building','70㎡'], desc: 'Entire 2-story machiya townhouse next to Koreatown for up to 10 guests (3LDK, 70㎡). Authentic Korean food within walking distance.' },
+      { area: 'Haginochaya, Nishinari-ku', tags: ['Near Shinsekai & Tsutenkaku','3LDK・Up to 9 guests','Natural interior'], desc: 'Steps from Shinsekai & Tsutenkaku. 2-min walk from Haginochaya Station. 3LDK for up to 9 guests. Natural decor. Opening soon.' },
+      { area: 'Haginochaya, Nishinari-ku', tags: ['Cute & Chic interior','3LDK・Up to 9 guests','Great for girls trip'], desc: 'Steps from Shinsekai & Tsutenkaku. 2-min walk from Haginochaya Station. 3LDK for up to 9 guests. Cute chic decor. Opening soon.' }
+    ]
   },
-  {
-    name: 'YADO TSURUHASHI', area: '鶴橋・生野区',
-    desc: 'コリアンタウン直結。古民家2階建て長屋1棟貸切。3LDK・70㎡・最大10名。本場の韓国料理が徒歩圏内で楽しめる。',
-    url: 'https://airbnb.jp/h/yado-tsuruhashi',
-    embed: () => EMBED.tsuruhashi, coming: false
+  zh: {
+    sub: '大阪包栋民宿 — 5处住所',
+    desc: '来大阪时，这里就是你的第二个家😊<br>我们仅面向家人、亲戚和朋友开放🏠✨<br>我们将用心为您提供舒适的住宿体验。<br>预约方式和日期请随时咨询♪',
+    coming: '即将开放',
+    book: '在Airbnb预约 →',
+    detail: '在Airbnb查看详情 →',
+    footer: '© YADO OSAKA — 大阪5处包栋民宿 / 请通过Airbnb预约',
+    props: [
+      { area: '谷町六丁目·中央区', tags: ['顶层10F','2LDK·最多10人','距车站步行3分','72㎡'], desc: '距谷町六丁目站步行3分钟。整层顶楼公寓（2LDK, 72㎡）包栋出租，最多10人入住。距难波15分钟，距梅田20分钟。' },
+      { area: '南堀江·西区', tags: ['古民家3层长屋','2LDK·最多7人','整栋包租','67㎡'], desc: '3层古民家长屋整栋包租，最多7人（2LDK, 67㎡）。距心斋桥4分钟，美国村·堀江咖啡店步行可达，京瓷巨蛋也在步行范围内。' },
+      { area: '鹤桥·生野区', tags: ['直通韩国城','3LDK·最多10人','整栋古民家','70㎡'], desc: '直通韩国城的2层古民家长屋整栋包租，最多10人（3LDK, 70㎡）。步行即可享用正宗韩国料理。' },
+      { area: '萩之茶屋·西成区', tags: ['紧邻新世界·通天阁','3LDK·最多9人','自然风格装修'], desc: '紧邻新世界和通天阁，距萩之茶屋站步行2分钟。3LDK最多9人入住，自然风格装修。即将开放。' },
+      { area: '萩之茶屋·西成区', tags: ['可爱时尚装修','3LDK·最多9人','适合女生旅行'], desc: '紧邻新世界和通天阁，距萩之茶屋站步行2分钟。3LDK最多9人，可爱时尚装修，非常适合闺蜜旅行。即将开放。' }
+    ]
   },
-  {
-    name: 'YADO HAGINOCHAYA 2F', area: '萩之茶屋・西成区',
-    desc: '新世界・通天閣すぐ。萩ノ茶屋駅徒歩2分。3LDK・最大9名。ナチュラルテイスト。現在設営中。',
-    url: 'https://airbnb.jp/h/yado-haginochaya2f',
-    embed: () => EMBED.hagi2f, coming: true
-  },
-  {
-    name: 'YADO HAGINOCHAYA 3F', area: '萩之茶屋・西成区',
-    desc: '新世界・通天閣すぐ。萩ノ茶屋駅徒歩2分。3LDK・最大9名。大人可愛いインテリア。現在設営中。',
-    url: 'https://airbnb.jp/h/yado-haginochaya3f',
-    embed: () => EMBED.hagi3f, coming: true
+  ko: {
+    sub: '오사카 독채 민박 — 5개 숙소',
+    desc: '오사카에 오실 때 제2의 집처럼 편하게 사용해주세요😊<br>가족·친척·친구 한정으로 안내해 드립니다🏠✨<br>정성껏 맞이할게요.<br>예약 방법이나 일정은 편하게 상담해주세요♪',
+    coming: '준비중',
+    book: 'Airbnb에서 예약하기 →',
+    detail: 'Airbnb에서 자세히 보기 →',
+    footer: '© YADO OSAKA — 오사카 독채 숙소 5선 / Airbnb에서 예약해 주세요',
+    props: [
+      { area: '다니마치 6초메·주오구', tags: ['최상층 10F','2LDK·최대 10명','역 도보 3분','72㎡'], desc: '다니마치 6초메역 도보 3분. 최상층 10F 원플로어 2LDK(72㎡) 독채. 최대 10명. 난바 15분, 우메다 20분으로 접근성 최고.' },
+      { area: '미나미호리에·니시구', tags: ['고민가 3층 나가야','2LDK·최대 7명','1동 독채','67㎡'], desc: '고민가 3층 나가야 1동 독채 대여. 2LDK·67㎡·최대 7명. 신사이바시 4분, 교세라돔 도보 권내. 아메리카무라·호리에도 도보로 가능.' },
+      { area: '쓰루하시·이쿠노구', tags: ['코리아타운 바로 앞','3LDK·최대 10명','고민가 1동 독채','70㎡'], desc: '코리아타운 바로 앞 고민가 2층 나가야 1동 독채. 3LDK·70㎡·최대 10명. 정통 한국 요리를 도보로 즐길 수 있습니다.' },
+      { area: '하기노차야·니시나리구', tags: ['신세카이·쓰텐카쿠 바로 옆','3LDK·최대 9명','내추럴 인테리어'], desc: '신세카이·쓰텐카쿠 바로 옆. 하기노차야역 도보 2분. 3LDK 최대 9명. 내추럴 인테리어. 현재 준비중.' },
+      { area: '하기노차야·니시나리구', tags: ['러블리 인테리어','3LDK·최대 9명','여자여행·그룹 추천'], desc: '신세카이·쓰텐카쿠 바로 옆. 하기노차야역 도보 2분. 3LDK 최대 9명. 러블리 인테리어로 여자여행에 최적. 현재 준비중.' }
+    ]
   }
+};
+
+const URLS = [
+  'https://airbnb.jp/h/yado-tanimachi',
+  'https://airbnb.jp/h/yado-minamihorie',
+  'https://airbnb.jp/h/yado-tsuruhashi',
+  'https://airbnb.jp/h/yado-haginochaya2f',
+  'https://airbnb.jp/h/yado-haginochaya3f'
 ];
+
+const EMBEDS = [
+  EMBED.tanimachi,
+  EMBED.minamihorie,
+  EMBED.tsuruhashi,
+  EMBED.hagi,
+  EMBED.hagi
+];
+
+const COMING = [false, false, false, true, true];
+
+let currentLang = 'ja';
+let currentPin = 0;
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach((b, i) => {
+    b.classList.toggle('active', ['ja','en','zh','ko'][i] === lang);
+  });
+  renderAll();
+}
+
+function renderAll() {
+  const L = LANGS[currentLang];
+  document.getElementById('h-sub').textContent = L.sub;
+  document.getElementById('h-desc').innerHTML = L.desc;
+  document.getElementById('footer').textContent = L.footer;
+  document.getElementById('coming-badge').textContent = L.coming;
+  document.getElementById('coming-badge2').textContent = L.coming;
+
+  L.props.forEach((p, i) => {
+    document.getElementById('area-' + i).textContent = p.area;
+    const tagsEl = document.getElementById('tags-' + i);
+    tagsEl.innerHTML = p.tags.map((t, j) => `<span class="tag${j===0?' hi':''}">${t}</span>`).join('');
+  });
+
+  updateDetail(currentPin);
+}
+
+function updateDetail(i) {
+  const L = LANGS[currentLang];
+  const p = L.props[i];
+  document.getElementById('d-name').textContent = ['YADO TANIMACHI','YADO MINAMIHORIE','YADO TSURUHASHI','YADO HAGINOCHAYA 2F','YADO HAGINOCHAYA 3F'][i];
+  document.getElementById('d-desc').textContent = p.desc;
+  const lnk = document.getElementById('d-link');
+  lnk.href = URLS[i];
+  lnk.textContent = COMING[i] ? L.detail : L.book;
+}
 
 function renderMapFrame(src) {
   const wrap = document.getElementById('map-frame-wrap');
   if (src) {
     wrap.innerHTML = `<iframe src="${src}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>`;
   } else {
-    wrap.innerHTML = `
-      <div class="map-placeholder">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-          <circle cx="12" cy="9" r="2.5"/>
-        </svg>
-        <span>地図URLを設定してください</span>
-      </div>`;
+    wrap.innerHTML = `<div class="map-placeholder"><span>🗺</span><span>Coming soon</span></div>`;
   }
 }
 
 function selectPin(i) {
+  currentPin = i;
   document.querySelectorAll('.pin-card').forEach((c, j) => c.classList.toggle('active', j === i));
-  const p = PROPS[i];
-  document.getElementById('d-name').textContent = p.name;
-  document.getElementById('d-desc').textContent = p.desc;
-  const lnk = document.getElementById('d-link');
-  lnk.href = p.url;
-  lnk.textContent = (p.coming ? 'Airbnbで詳細を見る' : 'Airbnbで予約する') + ' →';
-  renderMapFrame(p.embed());
+  renderMapFrame(EMBEDS[i]);
+  updateDetail(i);
 }
 
-
-
-function genQR() {
-  const url = document.getElementById('qr-input').value.trim();
-  if (!url) return;
-  const wrap = document.getElementById('qr-render');
-  wrap.innerHTML = '';
-  new QRCode(wrap, {
-    text: url, width: 220, height: 220,
-    colorDark: '#254f66', colorLight: '#f0f4f7',
-    correctLevel: QRCode.CorrectLevel.H
-  });
-  document.getElementById('qr-url-txt').textContent = url;
-  document.getElementById('qr-dl-wrap').style.display = 'block';
-}
-function dlQR() {
-  const canvas = document.querySelector('#qr-render canvas');
-  if (!canvas) return;
-  const a = document.createElement('a');
-  a.download = 'yado-osaka-qr.png';
-  a.href = canvas.toDataURL('image/png');
-  a.click();
-}
-
-// 初期表示
-renderMapFrame(PROPS[0].embed());
+// 初期化
+renderAll();
+selectPin(0);
 </script>
 </body>
 </html>
