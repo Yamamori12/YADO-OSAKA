@@ -1,1 +1,452 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YADO OSAKA — 大阪の貸切民泊</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root {
+  --bg:      #e4edf3;
+  --bg2:     #d6e3ec;
+  --card:    #edf3f7;
+  --card2:   #f5f8fa;
+  --accent:  #6a97b4;
+  --accent2: #42748f;
+  --accent3: #254f66;
+  --muted:   #8aafc4;
+  --text:    #1a3345;
+  --text2:   #466070;
+  --text3:   #7a9fba;
+  --border:  rgba(66,116,143,0.18);
+  --r:       16px;
+  --rs:      10px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);}
 
+/* HEADER */
+header{
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  padding:3rem 2rem 2.2rem;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+header::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(-45deg,transparent,transparent 30px,rgba(106,151,180,0.06) 30px,rgba(106,151,180,0.06) 31px);
+  pointer-events:none;
+}
+.logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.4rem,6vw,3.6rem);
+  font-weight:600;letter-spacing:0.2em;
+  color:var(--accent3);position:relative;line-height:1;
+}
+.logo-sub{font-size:.75rem;letter-spacing:.35em;color:var(--muted);margin-top:8px;font-weight:500;position:relative;}
+.header-desc{margin-top:14px;font-size:.82rem;color:var(--text2);line-height:1.8;position:relative;}
+
+/* TABS */
+.tabs{
+  display:flex;gap:6px;padding:1.2rem 1.5rem 0;
+  border-bottom:1px solid var(--border);background:var(--bg2);
+  overflow-x:auto;
+}
+.tab{
+  padding:8px 18px 10px;font-size:.8rem;font-weight:500;
+  color:var(--text2);cursor:pointer;
+  border-radius:var(--rs) var(--rs) 0 0;
+  border:1px solid transparent;border-bottom:none;
+  background:transparent;transition:all .18s;white-space:nowrap;
+}
+.tab:hover{background:rgba(106,151,180,.12);color:var(--accent3);}
+.tab.active{background:var(--card);color:var(--accent3);border-color:var(--border);font-weight:700;}
+
+main{max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem;}
+.view{display:block;}
+
+/* ── MAP VIEW ── */
+.map-layout{
+  display:grid;grid-template-columns:300px 1fr;
+  gap:1.5rem;align-items:start;
+}
+@media(max-width:720px){.map-layout{grid-template-columns:1fr;}}
+
+.pin-list{display:flex;flex-direction:column;gap:10px;}
+
+.pin-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);padding:14px 16px;
+  cursor:pointer;transition:all .16s;position:relative;
+}
+.pin-card:hover{border-color:var(--accent);background:var(--card2);}
+.pin-card.active{border:2px solid var(--accent2);background:var(--card2);}
+.badge-coming{
+  position:absolute;top:10px;right:12px;
+  font-size:.68rem;padding:2px 8px;border-radius:20px;
+  background:#fdf2dc;color:#8a6520;border:1px solid #f0d898;
+}
+.pin-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.pin-num{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--accent2);color:#fff;
+  font-size:12px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.pin-card.active .pin-num{background:var(--accent3);}
+.pin-name{font-size:.85rem;font-weight:700;color:var(--text);line-height:1.3;}
+.pin-area{font-size:.73rem;color:var(--text3);margin-top:1px;}
+.pin-tags{display:flex;flex-wrap:wrap;gap:5px;margin-left:38px;}
+.tag{font-size:.7rem;padding:2px 9px;border-radius:20px;background:var(--bg2);color:var(--text2);border:1px solid var(--border);}
+.tag.hi{background:#d6e8f3;color:var(--accent3);border-color:#b0cfe0;}
+
+/* MAP PANEL */
+.map-panel{position:sticky;top:1rem;}
+.map-frame-wrap{
+  border-radius:var(--r);overflow:hidden;
+  border:1px solid var(--border);
+  background:var(--bg2);
+}
+.map-frame-wrap iframe{
+  width:100%;height:380px;border:none;display:block;
+}
+.map-placeholder{
+  width:100%;height:380px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;color:var(--text3);font-size:.82rem;
+}
+.map-placeholder svg{opacity:.35;}
+
+.detail-box{
+  margin-top:1rem;background:var(--card);
+  border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;
+}
+.detail-box h3{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:5px;}
+.detail-box p{font-size:.78rem;color:var(--text2);line-height:1.8;margin-bottom:12px;}
+.airbnb-btn{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  width:100%;padding:10px;background:#FF5A5F;color:#fff;
+  border:none;border-radius:var(--rs);font-size:.82rem;font-weight:700;
+  cursor:pointer;text-decoration:none;font-family:'Noto Sans JP',sans-serif;
+  transition:background .15s;
+}
+.airbnb-btn:hover{background:#e04f54;}
+
+/* ── CARDS VIEW ── */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.4rem;}
+.prop-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);overflow:hidden;
+  transition:transform .18s,box-shadow .18s;position:relative;
+}
+.prop-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(30,51,66,.12);}
+.card-map-thumb{
+  width:100%;height:180px;border:none;display:block;
+  background:var(--bg2);pointer-events:none;
+}
+.card-img-placeholder{
+  width:100%;height:180px;background:var(--bg2);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.card-num-big{
+  font-family:'Cormorant Garamond',serif;font-size:5rem;font-weight:600;
+  color:rgba(106,151,180,.25);letter-spacing:.05em;user-select:none;
+}
+.card-img-label{
+  position:absolute;bottom:10px;left:12px;
+  font-size:.68rem;font-weight:700;letter-spacing:.15em;color:var(--accent3);
+  background:rgba(237,243,247,.9);padding:3px 10px;border-radius:20px;border:1px solid var(--border);
+}
+.coming-overlay{
+  position:absolute;inset:0;background:rgba(228,237,243,.6);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.78rem;font-weight:700;color:var(--accent2);letter-spacing:.15em;
+}
+.card-body{padding:16px 18px 18px;}
+.card-title{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:4px;}
+.card-sub{font-size:.72rem;color:var(--text3);margin-bottom:10px;}
+.card-desc{font-size:.76rem;color:var(--text2);line-height:1.75;margin-bottom:12px;}
+.card-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px;}
+.card-btn{
+  display:flex;align-items:center;justify-content:center;
+  width:100%;padding:9px;background:#FF5A5F;color:#fff;
+  border:none;border-radius:var(--rs);font-size:.78rem;font-weight:700;
+  text-decoration:none;font-family:'Noto Sans JP',sans-serif;transition:background .15s;
+}
+.card-btn:hover{background:#e04f54;}
+
+/* ── QR VIEW ── */
+.qr-section{max-width:520px;margin:0 auto;text-align:center;}
+.qr-intro{font-size:.85rem;color:var(--text2);line-height:1.8;margin-bottom:1.5rem;}
+.qr-row{display:flex;gap:8px;margin-bottom:1.5rem;}
+.qr-row input{
+  flex:1;padding:10px 14px;border:1px solid var(--border);
+  border-radius:var(--rs);font-size:.82rem;font-family:'Noto Sans JP',sans-serif;
+  background:var(--card2);color:var(--text);outline:none;
+}
+.qr-row input:focus{border-color:var(--accent);}
+.qr-gen-btn{
+  padding:10px 20px;background:var(--accent2);color:#fff;
+  border:none;border-radius:var(--rs);font-size:.82rem;font-weight:700;
+  cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:background .15s;white-space:nowrap;
+}
+.qr-gen-btn:hover{background:var(--accent3);}
+.qr-box{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);padding:2rem;display:inline-block;
+}
+#qr-render{display:flex;justify-content:center;margin-bottom:1rem;min-height:60px;}
+.qr-url-txt{font-size:.75rem;color:var(--text3);word-break:break-all;font-family:monospace;}
+.qr-dl{
+  margin-top:14px;padding:8px 22px;background:transparent;color:var(--accent2);
+  border:1px solid var(--accent);border-radius:var(--rs);font-size:.78rem;font-weight:700;
+  cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:all .15s;
+}
+.qr-dl:hover{background:var(--accent2);color:#fff;}
+.qr-ph{color:var(--text3);font-size:.82rem;padding:2rem 0;}
+.steps{
+  margin-top:2rem;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);padding:18px 20px;text-align:left;
+}
+.steps h4{font-size:.82rem;font-weight:700;color:var(--accent3);margin-bottom:10px;}
+.steps ol{font-size:.78rem;color:var(--text2);line-height:2.1;padding-left:1.2em;}
+.steps code{background:var(--bg2);padding:1px 6px;border-radius:4px;font-size:.75rem;}
+
+.sec-sub{font-size:.78rem;color:var(--text3);margin-bottom:1.5rem;letter-spacing:.05em;}
+
+footer{
+  text-align:center;padding:2rem 1rem;font-size:.72rem;
+  color:var(--text3);border-top:1px solid var(--border);background:var(--bg2);
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">YADO OSAKA</div>
+  <div class="logo-sub">大阪の貸切民泊 — 5つのお宿</div>
+  <p class="header-desc">大阪に来たときの"もうひとつの我が家"として使ってね😊<br>私の宿を、家族・親戚・友人限定でご案内します🏠✨<br>快適に過ごせるよう、心を込めてお迎えします。<br>予約方法や日程の相談もお気軽に♪</p>
+</header>
+
+
+
+<main>
+
+<!-- ══ MAP VIEW ══ -->
+<div id="view-map">
+  <div class="map-layout">
+
+    <div class="pin-list">
+      <div class="pin-card active" onclick="selectPin(0)">
+        <div class="pin-head">
+          <div class="pin-num">1</div>
+          <div>
+            <div class="pin-name">YADO TANIMACHI</div>
+            <div class="pin-area">谷町六丁目・中央区</div>
+          </div>
+        </div>
+        <div class="pin-tags">
+          <span class="tag hi">最上階10F</span>
+          <span class="tag">2LDK・最大10名</span>
+          <span class="tag">駅徒歩3分</span>
+          <span class="tag">72㎡</span>
+        </div>
+      </div>
+
+      <div class="pin-card" onclick="selectPin(1)">
+        <div class="pin-head">
+          <div class="pin-num">2</div>
+          <div>
+            <div class="pin-name">YADO MINAMIHORIE</div>
+            <div class="pin-area">南堀江・西区</div>
+          </div>
+        </div>
+        <div class="pin-tags">
+          <span class="tag hi">古民家3階建</span>
+          <span class="tag">2LDK・最大7名</span>
+          <span class="tag">1棟貸切</span>
+          <span class="tag">67㎡</span>
+        </div>
+      </div>
+
+      <div class="pin-card" onclick="selectPin(2)">
+        <div class="pin-head">
+          <div class="pin-num">3</div>
+          <div>
+            <div class="pin-name">YADO TSURUHASHI</div>
+            <div class="pin-area">鶴橋・生野区</div>
+          </div>
+        </div>
+        <div class="pin-tags">
+          <span class="tag hi">コリアンタウン直結</span>
+          <span class="tag">3LDK・最大10名</span>
+          <span class="tag">古民家1棟貸切</span>
+          <span class="tag">70㎡</span>
+        </div>
+      </div>
+
+      <div class="pin-card" onclick="selectPin(3)">
+        <span class="badge-coming">準備中</span>
+        <div class="pin-head">
+          <div class="pin-num">4</div>
+          <div>
+            <div class="pin-name">YADO HAGINOCHAYA 2F</div>
+            <div class="pin-area">萩之茶屋・西成区</div>
+          </div>
+        </div>
+        <div class="pin-tags">
+          <span class="tag hi">新世界・通天閣すぐ</span>
+          <span class="tag">3LDK・最大9名</span>
+          <span class="tag">ナチュラルテイスト</span>
+        </div>
+      </div>
+
+      <div class="pin-card" onclick="selectPin(4)">
+        <span class="badge-coming">準備中</span>
+        <div class="pin-head">
+          <div class="pin-num">5</div>
+          <div>
+            <div class="pin-name">YADO HAGINOCHAYA 3F</div>
+            <div class="pin-area">萩之茶屋・西成区</div>
+          </div>
+        </div>
+        <div class="pin-tags">
+          <span class="tag hi">大人可愛いインテリア</span>
+          <span class="tag">3LDK・最大9名</span>
+          <span class="tag">女子旅・グループ向け</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAP + DETAIL -->
+    <div class="map-panel">
+      <div class="map-frame-wrap" id="map-frame-wrap">
+        <!-- iframeがここに動的に挿入されます -->
+      </div>
+      <div class="detail-box">
+        <h3 id="d-name">YADO TANIMACHI</h3>
+        <p id="d-desc">メトロ谷六駅徒歩3分。最上階10Fワンフロア2LDK（72㎡）丸ごと貸切。最大10名。難波15分・梅田20分とアクセス抜群。</p>
+        <a class="airbnb-btn" id="d-link" href="https://airbnb.jp/h/yado-tanimachi" target="_blank">
+          Airbnbで予約する →
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+</main>
+
+<footer>
+  © YADO OSAKA — 大阪の貸切民泊 5選 ／ ご予約はAirbnbよりお願いします
+</footer>
+
+<script>
+/* =====================================================
+   ★ ここにiframe埋め込みURLを貼り付けてください ★
+   Google マップ →「共有」→「地図を埋め込む」→ src="..." の中身
+   ===================================================== */
+const EMBED = {
+  tanimachi:   'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3281.147056943614!2d135.51713!3d34.6762378!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6000e777de5b8e0f%3A0x68cd0afcf9745bdc!2zWUFETyBUQU5JTUFDSEnvvIjlrr8t6LC355S677yJ!5e0!3m2!1sja!2sjp!4v1778683927650!5m2!1sja!2sjp',
+  minamihorie: 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3281.3719261875945!2d135.481256!3d34.6705615!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6000e7215802a899%3A0xe59aebc24f50659c!2zWUFETyBNSU5BTUlIT1JJRe-8iOWuvy3ljZfloIDmsZ_vvIk!5e0!3m2!1sja!2sjp!4v1778683940592!5m2!1sja!2sjp',
+  tsuruhashi:  'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d820.4208819433176!2d135.5331168!3d34.6626945!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6000df5c7a0d9725%3A0x2d8bb91aae90c376!2zWUFETyBUU1VSVUhBU0hJ77yI5a6_Lem2tOapi--8iQ!5e0!3m2!1sja!2sjp!4v1778683912334!5m2!1sja!2sjp',
+  hagi2f:      '',
+  hagi3f:      ''
+};
+
+const PROPS = [
+  {
+    name: 'YADO TANIMACHI', area: '谷町六丁目・中央区',
+    desc: 'メトロ谷六駅徒歩3分。最上階10Fワンフロア2LDK（72㎡）丸ごと貸切。最大10名。難波15分・梅田20分とアクセス抜群。',
+    url: 'https://airbnb.jp/h/yado-tanimachi',
+    embed: () => EMBED.tanimachi, coming: false
+  },
+  {
+    name: 'YADO MINAMIHORIE', area: '南堀江・西区',
+    desc: '古民家3階建て長屋1棟貸切。2LDK・67㎡・最大7名。心斎橋4分・京セラドーム徒歩圏。アメリカ村・堀江も歩いてすぐ。',
+    url: 'https://airbnb.jp/h/yado-minamihorie',
+    embed: () => EMBED.minamihorie, coming: false
+  },
+  {
+    name: 'YADO TSURUHASHI', area: '鶴橋・生野区',
+    desc: 'コリアンタウン直結。古民家2階建て長屋1棟貸切。3LDK・70㎡・最大10名。本場の韓国料理が徒歩圏内で楽しめる。',
+    url: 'https://airbnb.jp/h/yado-tsuruhashi',
+    embed: () => EMBED.tsuruhashi, coming: false
+  },
+  {
+    name: 'YADO HAGINOCHAYA 2F', area: '萩之茶屋・西成区',
+    desc: '新世界・通天閣すぐ。萩ノ茶屋駅徒歩2分。3LDK・最大9名。ナチュラルテイスト。現在設営中。',
+    url: 'https://airbnb.jp/h/yado-haginochaya2f',
+    embed: () => EMBED.hagi2f, coming: true
+  },
+  {
+    name: 'YADO HAGINOCHAYA 3F', area: '萩之茶屋・西成区',
+    desc: '新世界・通天閣すぐ。萩ノ茶屋駅徒歩2分。3LDK・最大9名。大人可愛いインテリア。現在設営中。',
+    url: 'https://airbnb.jp/h/yado-haginochaya3f',
+    embed: () => EMBED.hagi3f, coming: true
+  }
+];
+
+function renderMapFrame(src) {
+  const wrap = document.getElementById('map-frame-wrap');
+  if (src) {
+    wrap.innerHTML = `<iframe src="${src}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>`;
+  } else {
+    wrap.innerHTML = `
+      <div class="map-placeholder">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+          <circle cx="12" cy="9" r="2.5"/>
+        </svg>
+        <span>地図URLを設定してください</span>
+      </div>`;
+  }
+}
+
+function selectPin(i) {
+  document.querySelectorAll('.pin-card').forEach((c, j) => c.classList.toggle('active', j === i));
+  const p = PROPS[i];
+  document.getElementById('d-name').textContent = p.name;
+  document.getElementById('d-desc').textContent = p.desc;
+  const lnk = document.getElementById('d-link');
+  lnk.href = p.url;
+  lnk.textContent = (p.coming ? 'Airbnbで詳細を見る' : 'Airbnbで予約する') + ' →';
+  renderMapFrame(p.embed());
+}
+
+
+
+function genQR() {
+  const url = document.getElementById('qr-input').value.trim();
+  if (!url) return;
+  const wrap = document.getElementById('qr-render');
+  wrap.innerHTML = '';
+  new QRCode(wrap, {
+    text: url, width: 220, height: 220,
+    colorDark: '#254f66', colorLight: '#f0f4f7',
+    correctLevel: QRCode.CorrectLevel.H
+  });
+  document.getElementById('qr-url-txt').textContent = url;
+  document.getElementById('qr-dl-wrap').style.display = 'block';
+}
+function dlQR() {
+  const canvas = document.querySelector('#qr-render canvas');
+  if (!canvas) return;
+  const a = document.createElement('a');
+  a.download = 'yado-osaka-qr.png';
+  a.href = canvas.toDataURL('image/png');
+  a.click();
+}
+
+// 初期表示
+renderMapFrame(PROPS[0].embed());
+</script>
+</body>
+</html>
